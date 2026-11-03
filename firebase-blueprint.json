@@ -1,0 +1,64 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with saved contact and delivery details",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "address": { "type": "string", "maxLength": 500 },
+        "city": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["uid", "email"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Supermarket customer order placed at a Shoprite branch",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "reference": { "type": "string", "maxLength": 64 },
+        "total": { "type": "number" },
+        "status": { "type": "string", "maxLength": 64 },
+        "address": { "type": "string", "maxLength": 500 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "branchName": { "type": "string", "maxLength": 128 },
+        "branchId": { "type": "string", "maxLength": 64 },
+        "branchArea": { "type": "string", "maxLength": 256 },
+        "userId": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["reference", "total", "status", "address"]
+    },
+    "Delivery": {
+      "title": "Delivery",
+      "description": "Real-time GPS delivery tracking from the delivery driver",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string", "maxLength": 128 },
+        "orderRef": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "maxLength": 64 },
+        "driverName": { "type": "string", "maxLength": 128 },
+        "driverPhone": { "type": "string", "maxLength": 32 },
+        "driverVehicle": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["orderId", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile collection"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Supermarket orders collection"
+    },
+    "/deliveries/{deliveryId}": {
+      "schema": { "$ref": "#/entities/Delivery" },
+      "description": "Live GPS driver tracking documents"
+    }
+  }
+}

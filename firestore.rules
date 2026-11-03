@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default safety deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Health / connection check
+    match /test/{testId} {
+      allow read: if true;
+    }
+
+    // Customer profile records
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create, update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
+    // Customer orders
+    match /orders/{orderId} {
+      // Allow customers to place orders at checkout
+      allow create: if request.resource.data.total is number && request.resource.data.total >= 0;
+      // Allow reading order details for confirmation, receipt lookup and user order history
+      allow read: if true;
+      // Allow order status updates
+      allow update: if true;
+      allow delete: if false;
+    }
+
+    // Real-time GPS delivery tracking from driver device
+    match /deliveries/{deliveryId} {
+      // Customers and store staff can track live delivery movement on the map
+      allow read: if true;
+      // Drivers can report live GPS coordinates, status and timestamps
+      allow create, update: if true;
+      allow delete: if false;
+    }
+  }
+}

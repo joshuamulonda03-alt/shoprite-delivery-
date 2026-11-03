@@ -1,0 +1,8 @@
+{
+  "name": "Shoprite Zambia Delivery",
+  "description": "Independent Shoprite Zambia doorstep-delivery prototype with catalogue, branch selection, and order tracking.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
